@@ -13,7 +13,6 @@ export const Phone = ({ imgSrc, className, dark = false, ...props }: PhoneProps)
             <Image
                 className='pointer-events-none z-50 select-none'
                 src={dark ? '/phone-template-dark-edges.png' : '/phone-template-white-edges.png'}
-
                 alt='phone image'
                 width={400}
                 height={400}

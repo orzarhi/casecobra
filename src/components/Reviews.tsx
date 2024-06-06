@@ -114,9 +114,27 @@ const ReviewGrid = () => {
                 <>
                     <ReviewColumn
                         reviews={[...columns1, ...columns3.flat(), ...columns2]}
+                        reviewClassName={(reviewIndex) => cn({
+                            'md:hidden': reviewIndex >= columns1.length + columns3[0].length,
+                            'lg:hidden': reviewIndex >= columns1.length
+                        })}
+                        msPerPixel={10}
+                    />
+                    <ReviewColumn
+                        reviews={[...columns2, ...columns3[1]]}
+                        className='hidden md:block'
+                        reviewClassName={(reviewIndex) => reviewIndex >= columns2.length ? 'lg:hidden' : ''}
+                        msPerPixel={15}
+                    />
+                    <ReviewColumn
+                        reviews={columns3.flat()}
+                        className='hidden md:block'
+                        msPerPixel={7}
                     />
                 </>
             ) : null}
+            <div className='pointer-events-none absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-slate-50' />
+            <div className='pointer-events-none absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-slate-50' />
         </div>
     )
 }

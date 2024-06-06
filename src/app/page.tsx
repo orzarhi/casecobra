@@ -13,7 +13,7 @@ export default function Home() {
                 <div className='absolute inset-x-0 bottom-0 bg-gradient-to-t via-slate-50/50 from-slate-50 h-28' />
                 <Image
                   src="/snake-1.png"
-                  alt='Snake illustration'
+                  alt='snake illustration'
                   className="w-full"
                   width={112}
                   height={112}
