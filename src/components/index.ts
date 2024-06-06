@@ -1,3 +1,5 @@
 export { MaxWidthWrapper } from './MaxWidthWrapper'
 export { Phone } from './Phone'
 export { Navbar } from './Navbar'
+export { Icons } from './Icons'
+export { Reviews } from './Reviews'
