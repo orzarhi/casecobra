@@ -55,8 +55,8 @@ export const Steps = () => {
                                         })}
                                         src={imgPath}
                                         alt='image-step'
-                                        width={320}
-                                        height={320}
+                                        width={300}
+                                        height={300}
                                     />
                                 </span>
                                 <span className='ml-4 h-full mt-0.5 flex min-w-0 flex-col justify-center'>
@@ -71,6 +71,22 @@ export const Steps = () => {
                                     </span>
                                 </span>
                             </span>
+
+                            {i !== 0 ? (
+                                <div className='absolute inset-0 hidden w-3 lg:block'>
+                                    <svg
+                                        className='h-full w-full text-gray-300'
+                                        viewBox='0 0 12 82'
+                                        fill='none'
+                                        preserveAspectRatio='none'>
+                                        <path
+                                            d='M0.5 0V31L10.5 41L0.5 51V82'
+                                            stroke='currentcolor'
+                                            vectorEffect='non-scaling-stroke'
+                                        />
+                                    </svg>
+                                </div>
+                            ) : null}
                         </div>
                     </li>
                 )
