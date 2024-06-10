@@ -5,6 +5,7 @@ import React from 'react'
 import NextImage from 'next/image'
 import { cn } from '@/lib/utils'
 import { Rnd } from 'react-rnd'
+import { HandleComponent } from '@/components/HandleComponent'
 
 interface DesignConfiguratorProps {
     configId: string
@@ -38,6 +39,14 @@ export const DesignConfigurator = ({ configId, imageUrl, imageDimensions }: Desi
                         y: 205,
                         height: imageDimensions.height / 4,
                         width: imageDimensions.width / 4
+                    }}
+                    className='absolute z-20 border-[3px] border-primary'
+                    lockAspectRatio
+                    resizeHandleComponent={{
+                        bottomRight: <HandleComponent />,
+                        bottomLeft: <HandleComponent />,
+                        topRight: <HandleComponent />,
+                        topLeft: <HandleComponent />
                     }}
                 >
                     <div className='relative w-full h-full'>
