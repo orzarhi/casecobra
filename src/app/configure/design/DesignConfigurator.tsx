@@ -1,7 +1,7 @@
 'use client'
 
 import { AspectRatio } from '@/components/ui/aspect-ratio'
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import NextImage from 'next/image'
 import { cn, formatPrice } from '@/lib/utils'
 import { Rnd } from 'react-rnd'
@@ -36,11 +36,81 @@ export const DesignConfigurator = ({ configId, imageUrl, imageDimensions }: Desi
         material: MATERIALS.options[0],
         finish: FINISHES.options[0]
     })
+
+    const [renderDimensions, setRenderDimensions] = useState({
+        width: imageDimensions.width / 4,
+        height: imageDimensions.height / 4
+    })
+
+    const [renderPosition, setRenderPosition] = useState({
+        x: 150,
+        y: 205
+    })
+
+    const phoneCaseRef = useRef<HTMLDivElement>(null)
+    const containerRef = useRef<HTMLDivElement>(null)
+
+    async function saveConfiguration() {
+        try {
+            const {
+                left: caseLeft,
+                top: caseTop,
+                width,
+                height
+            } = phoneCaseRef.current!.getBoundingClientRect()
+
+            const {
+                left: containerLeft,
+                top: containerTop
+            } = containerRef.current!.getBoundingClientRect()
+
+            const leftOffset = caseLeft - containerLeft
+            const topOffset = caseTop - containerTop
+
+
+            const actualX = renderPosition.x - leftOffset
+            const actualY = renderPosition.y - topOffset
+
+            const canvas = document.createElement('canvas')
+            canvas.width = width
+            canvas.height = height
+
+            const ctx = canvas.getContext('2d')
+
+            const userImage = new Image()
+            userImage.crossOrigin = 'anonymous'
+            userImage.src = imageUrl
+
+            await new Promise((resolve) => userImage.onload = resolve)
+
+            ctx?.drawImage(userImage, actualX, actualY, renderDimensions.width, renderDimensions.height)
+
+            const base64 = canvas.toDataURL()
+            const base64Data = base64.split(',')[1]
+
+            const blob = base64ToBlob(base64Data, 'image/png')
+
+        } catch (error) {
+
+        }
+    }
+
+    function base64ToBlob(base64: string, mimType: string) {
+
+    }
+
     return (
         <div className='relative mt-20 grid grid-cols-1 lg:grid-cols-3 mb-20 pb-20'>
-            <div className='relative h-[37.5rem] overflow-hidden col-span-2 w-full max-w-4xl flex items-center justify-center rounded-lg border-2 border-dashed border-gray-300 p-12 text-center focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2'>
+            <div
+                className='relative h-[37.5rem] overflow-hidden col-span-2 w-full max-w-4xl flex items-center justify-center rounded-lg border-2 border-dashed border-gray-300 p-12 text-center focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2'
+                ref={containerRef}
+            >
                 <div className='relative w-60 bg-opacity-50 pointer-events-none aspect-[896/1831]'>
-                    <AspectRatio ratio={896 / 1831} className='pointer-events-none relative z-50 aspect-[896/1831] w-full'>
+                    <AspectRatio
+                        className='pointer-events-none relative z-50 aspect-[896/1831] w-full'
+                        ref={phoneCaseRef}
+                        ratio={896 / 1831}
+                    >
                         <NextImage
                             className='pointer-events-none z-50 select-none'
                             src='/phone-template.png'
@@ -58,6 +128,17 @@ export const DesignConfigurator = ({ configId, imageUrl, imageDimensions }: Desi
                         y: 205,
                         height: imageDimensions.height / 4,
                         width: imageDimensions.width / 4
+                    }}
+                    onResizeStop={(_, __, ref, ___, { x, y }) => {
+                        setRenderDimensions({
+                            height: parseInt(ref.style.height.slice(0, -2)),
+                            width: parseInt(ref.style.width.slice(0, -2))
+                        })
+                        setRenderPosition({ x, y })
+                    }}
+                    onDragStop={(_, data) => {
+                        const { x, y } = data
+                        setRenderPosition({ x, y })
                     }}
                     className='absolute z-20 border-[3px] border-primary'
                     lockAspectRatio
@@ -206,6 +287,7 @@ export const DesignConfigurator = ({ configId, imageUrl, imageDimensions }: Desi
                             <Button
                                 className='w-full'
                                 size='sm'
+                                onClick={() => saveConfiguration()}
                             >
                                 Continue
                                 <ArrowRight className='size-4 ml-1.5 inline' />
