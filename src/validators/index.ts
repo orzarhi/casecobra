@@ -1,1 +1,1 @@
-export { COLORS } from './option-validator'
+export { COLORS, MODELS } from './option-validator'
