@@ -1,1 +1,1 @@
-export { PRODUCTS_PRICES } from './products';
+export { PRODUCTS_PRICES, BASE_PRICE } from './products';
