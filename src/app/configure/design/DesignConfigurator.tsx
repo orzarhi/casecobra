@@ -332,7 +332,13 @@ export const DesignConfigurator = ({ configId, imageUrl, imageDimensions }: Desi
                             <Button
                                 className='w-full'
                                 size='sm'
-                                onClick={() => saveConfiguration()}
+                                onClick={() => saveConfig({
+                                    configId,
+                                    color: options.color.value,
+                                    finish: options.finish.value,
+                                    material: options.material.value,
+                                    model: options.model.value
+                                })}
                             >
                                 Continue
                                 <ArrowRight className='size-4 ml-1.5 inline' />
