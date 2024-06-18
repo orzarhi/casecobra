@@ -14,6 +14,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { Button } from '@/components/ui/button'
 import { ArrowRight, Check, ChevronDown, ChevronsUpDown } from 'lucide-react'
 import { BASE_PRICE } from '@/config'
+import { useUploadThing } from '@/lib/uploadthing'
 
 interface DesignConfiguratorProps {
     configId: string
@@ -49,6 +50,8 @@ export const DesignConfigurator = ({ configId, imageUrl, imageDimensions }: Desi
 
     const phoneCaseRef = useRef<HTMLDivElement>(null)
     const containerRef = useRef<HTMLDivElement>(null)
+
+    const { startUpload } = useUploadThing('imageUploader')
 
     async function saveConfiguration() {
         try {
@@ -89,14 +92,25 @@ export const DesignConfigurator = ({ configId, imageUrl, imageDimensions }: Desi
             const base64Data = base64.split(',')[1]
 
             const blob = base64ToBlob(base64Data, 'image/png')
+            const file = new File([blob], 'filename.png', { type: 'image/png' })
 
+            startUpload([file], { configId })
         } catch (error) {
 
         }
     }
 
     function base64ToBlob(base64: string, mimType: string) {
+        const byteCharacters = atob(base64)
+        const byteNumbers = new Array(byteCharacters.length)
 
+        for (let i = 0; i < byteCharacters.length; i++) {
+            byteNumbers[i] = byteCharacters.charCodeAt(i)
+        }
+
+        const byteArray = new Uint8Array(byteNumbers)
+
+        return new Blob([byteArray], { type: mimType })
     }
 
     return (
