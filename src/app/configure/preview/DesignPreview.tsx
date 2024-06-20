@@ -1,11 +1,13 @@
 'use client'
 
 import { Phone } from '@/components/Phone'
+import { Button } from '@/components/ui/button'
 import { BASE_PRICE, PRODUCTS_PRICES } from '@/config'
 import { cn, formatPrice } from '@/lib/utils'
 import { COLORS, FINISHES, MODELS } from '@/validators'
 import { Configuration } from '@prisma/client'
-import { Check } from 'lucide-react'
+import { useMutation } from '@tanstack/react-query'
+import { ArrowRight, Check } from 'lucide-react'
 import React, { useEffect, useState } from 'react'
 import Confetti from 'react-dom-confetti'
 
@@ -35,6 +37,10 @@ export const DesignPreview = ({ configuration }: DesignPreviewProps) => {
     }
 
 
+    // const { } = useMutation({
+    //     mutationKey: ['get-checkout-session'],
+    //     mutationFn:
+    // })
 
     return (
         <>
@@ -124,7 +130,16 @@ export const DesignPreview = ({ configuration }: DesignPreviewProps) => {
                                     <p className='font-semibold text-gray-900'>{formatPrice(totalPrice / 100)}</p>
                                 </div>
                             </div>
+                        </div>
 
+                        <div className='mt-8 flex justify-end pb-12'>
+                            <Button
+                                className='px-4 sm:px-6 lg:px-8'
+
+                            >
+                                Check out
+                                <ArrowRight className='size-4 ml-1.5 inline' />
+                            </Button>
                         </div>
                     </div>
                 </div>
