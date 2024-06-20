@@ -14,7 +14,7 @@ import { useEffect, useState } from 'react'
 import Confetti from 'react-dom-confetti'
 import { createCheckoutSession } from './actions'
 import { useKindeBrowserClient } from '@kinde-oss/kinde-auth-nextjs'
-import { LoginModal } from '@/components'
+import { LoginModal } from '@/components/LoginModal'
 
 interface DesignPreviewProps {
     configuration: Configuration
@@ -172,7 +172,7 @@ export const DesignPreview = ({ configuration }: DesignPreviewProps) => {
                         <div className='mt-8 flex justify-end pb-12'>
                             <Button
                                 className='px-4 sm:px-6 lg:px-8'
-                                onClick={() => handleCheckout}
+                                onClick={() => handleCheckout()}
 
                             >
                                 Check out
