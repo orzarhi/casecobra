@@ -15,7 +15,7 @@ interface LoginModalProps {
 export const LoginModal = ({ isOpen, setIsOpen }: LoginModalProps) => {
     return (
         <Dialog onOpenChange={setIsOpen} open={isOpen}>
-            <DialogContent className=''>
+            <DialogContent className='z-[9999999]'>
                 <DialogHeader>
                     <div className='relative mx-auto size-24 mb-2'>
                         <Image
