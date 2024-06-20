@@ -1,4 +1,6 @@
+import { db } from "@/db";
 import { stripe } from "@/lib/stripe";
+import { NextResponse } from "next/server";
 import Stripe from "stripe";
 
 export async function POST(req: Request, res: Response) {
@@ -22,8 +24,46 @@ export async function POST(req: Request, res: Response) {
                 userId: null,
                 orderId: null
             }
-        }
-    } catch (error) {
 
+            if (!userId || !orderId) {
+                throw new Error('Invalid request metadata');
+            }
+
+            const billingAddress = session.customer_details?.address;
+            const shippingAddress = session.shipping_details?.address;
+
+            await db.order.update({
+                where: { id: orderId },
+                data: {
+                    isPaid: true,
+                    shippingAddress: {
+                        create: {
+                            name: session.customer_details?.name as string,
+                            city: shippingAddress?.city as string,
+                            country: shippingAddress?.country as string,
+                            postalCode: shippingAddress?.postal_code as string,
+                            street: shippingAddress?.line1 as string,
+                            state: shippingAddress?.state as string
+                        }
+                    },
+                    billingAddress: {
+                        create: {
+                            name: session.customer_details?.name as string,
+                            city: billingAddress?.city as string,
+                            country: billingAddress?.country as string,
+                            postalCode: billingAddress?.postal_code as string,
+                            street: billingAddress?.line1 as string,
+                            state: billingAddress?.state as string
+                        }
+                    }
+                }
+            })
+        }
+
+        return NextResponse.json({ result: event, ok: true })
+    } catch (error) {
+        console.error(error)
+
+        return NextResponse.json({ message: 'Something went wrong', ok: false }, { status: 500 })
     }
 }
