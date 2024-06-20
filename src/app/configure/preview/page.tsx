@@ -8,7 +8,7 @@ interface PageProps {
     }
 }
 
-export default async function page({ searchParams }: PageProps) {
+export default async function Page({ searchParams }: PageProps) {
     const { id } = searchParams
 
     if (!id || typeof id !== 'string') {

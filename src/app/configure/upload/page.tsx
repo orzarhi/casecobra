@@ -9,7 +9,7 @@ import { useRouter } from "next/navigation"
 import { useState, useTransition } from "react"
 import Dropzone, { FileRejection } from "react-dropzone"
 
-export default function page() {
+export default function Page() {
     const { toast } = useToast()
 
     const router = useRouter()
