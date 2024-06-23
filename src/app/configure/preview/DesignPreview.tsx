@@ -49,7 +49,7 @@ export const DesignPreview = ({ configuration }: DesignPreviewProps) => {
     }
 
 
-    const { mutate: createPaymentSession } = useMutation({
+    const { mutate: createPaymentSession, isPending } = useMutation({
         mutationKey: ['get-checkout-session'],
         mutationFn: createCheckoutSession,
         onSuccess: ({ url }) => {
@@ -172,6 +172,9 @@ export const DesignPreview = ({ configuration }: DesignPreviewProps) => {
                         <div className='mt-8 flex justify-end pb-12'>
                             <Button
                                 className='px-4 sm:px-6 lg:px-8'
+                                disabled={isPending}
+                                isLoading={isPending}
+                                loadingText='Processing'
                                 onClick={() => handleCheckout()}
 
                             >
