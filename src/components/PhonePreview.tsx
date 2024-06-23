@@ -1,10 +1,9 @@
 'use client'
 
-import { CaseColor } from "@prisma/client";
-import { useRef, useState } from "react";
-import { AspectRatio } from "./ui/aspect-ratio";
 import { cn } from "@/lib/utils";
-import Image from "next/image";
+import { CaseColor } from "@prisma/client";
+import { useEffect, useRef, useState } from "react";
+import { AspectRatio } from "./ui/aspect-ratio";
 
 interface PhonePreviewProps {
     croppedImageUrl: string;
@@ -23,6 +22,24 @@ export const PhonePreview = ({ croppedImageUrl, color }: PhonePreviewProps) => {
     if (color === 'blue') caseBackgroundColor = 'bg-blue-950'
     if (color === 'rose') caseBackgroundColor = 'bg-rose-950'
 
+
+    const handleResize = () => {
+        if (!ref.current) return;
+
+        const { width, height } = ref.current.getBoundingClientRect()
+
+        setRenderedDimensions({ width, height })
+    }
+
+    useEffect(() => {
+        handleResize()
+
+        window.addEventListener('resize', handleResize)
+
+        return () => window.removeEventListener('resize', handleResize)
+    }, [ref.current])
+
+
     return (
         <AspectRatio
             ref={ref}
@@ -36,20 +53,18 @@ export const PhonePreview = ({ croppedImageUrl, color }: PhonePreviewProps) => {
                     top: renderedDimensions.height / 6.22,
                 }}
             >
-                <Image
+                <img
                     src={croppedImageUrl}
                     className={cn("phone-skew relative z-20 rounded-t-[15px] rounded-b-[10px] md:rounded-t-[30px] md:rounded-b-[20px]", caseBackgroundColor)}
                     width={renderedDimensions.width / (3000 / 637)}
-                    fill
                     alt="phone-preview"
                 />
             </div>
             <div className="relative size-full z-40">
-                <Image
+                <img
                     src='/clearphone.png'
                     className="pointer-events-none size-full antialiased rounded-md"
                     alt="phone"
-                    fill
                 />
             </div>
         </AspectRatio>
