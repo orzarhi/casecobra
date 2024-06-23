@@ -28,7 +28,7 @@ export const Navbar = async () => {
                                     Sign out
                                 </Link>
 
-                                {isAdmin ? < Link href='/dashboard' className={buttonVariants({
+                                {isAdmin ? <Link href='/dashboard' className={buttonVariants({
                                     size: 'sm',
                                     variant: 'ghost'
                                 })}>
