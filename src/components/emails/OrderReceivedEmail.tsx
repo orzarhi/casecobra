@@ -3,11 +3,11 @@ import { Body, Column, Container, Head, Heading, Hr, Html, Img, Preview, Row, Se
 
 interface OrderReceivedEmailProps {
     shippingAddress: ShippingAddress;
-    oderId: string;
+    orderId: string;
     orderDate: string;
 }
 
-export const OrderReceivedEmail = ({ shippingAddress, oderId, orderDate }: OrderReceivedEmailProps) => {
+export const OrderReceivedEmail = ({ shippingAddress, orderId, orderDate }: OrderReceivedEmailProps) => {
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL
 
     return (
@@ -50,10 +50,10 @@ export const OrderReceivedEmail = ({ shippingAddress, oderId, orderDate }: Order
                         <Row style={{ display: 'inline-flex', marginBottom: 40 }}>
                             <Column style={{ width: 170 }}>
                                 <Text style={global.paragraphWithBold}>
-                                    Order number:
+                                    Order number
                                 </Text>
                                 <Text style={track.number}>
-                                    {oderId}
+                                    {orderId}
                                 </Text>
                             </Column>
                             <Column style={{ marginLeft: 20 }}>
