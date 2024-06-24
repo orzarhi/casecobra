@@ -8,7 +8,10 @@ interface OrderReceivedEmailProps {
 }
 
 export const OrderReceivedEmail = ({ shippingAddress, oderId, orderDate }: OrderReceivedEmailProps) => {
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL
+    const baseUrl =
+        process.env.NODE_ENV === 'development'
+            ? 'http://localhost:3000'
+            : 'https://casecobra-orcode.vercel.app'
 
     return (
         <Html>
